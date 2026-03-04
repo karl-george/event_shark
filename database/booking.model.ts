@@ -1,4 +1,5 @@
 import {Document, model, models, Schema, Types} from 'mongoose';
+import Event from './event.model';
 
 // TypeScript interface for a Booking document
 export interface IBooking extends Document {
@@ -48,11 +49,13 @@ BookingSchema.pre('save', async function () {
                 const error = new Error(`Event with ID ${booking.eventId} does not exist`);
                 error.name = 'ValidationError';
 
+                throw error;
             }
         } catch {
             const validationError = new Error('Invalid events ID format or database error');
             validationError.name = 'ValidationError';
 
+            throw validationError;
         }
     }
 });

@@ -21,7 +21,7 @@ const BookEvent = () => {
             ) : (
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="Email">Email Address</label>
+                        <label htmlFor="email">Email Address</label>
                         <input type={"email"} value={email}
                                onChange={(e) => setEmail(e.target.value)}
                                id="email"
