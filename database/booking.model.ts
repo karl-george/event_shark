@@ -1,5 +1,4 @@
 import {Document, model, models, Schema, Types} from 'mongoose';
-import Event from './event.model';
 
 // TypeScript interface for a Booking document
 export interface IBooking extends Document {
@@ -37,7 +36,7 @@ const BookingSchema = new Schema<IBooking>(
 );
 
 // Pre-save hook to validate events exists before creating booking
-BookingSchema.pre('save', async function (next) {
+BookingSchema.pre('save', async function () {
     const booking = this as IBooking;
 
     // Only validate eventId if it's new or modified
@@ -48,16 +47,14 @@ BookingSchema.pre('save', async function (next) {
             if (!eventExists) {
                 const error = new Error(`Event with ID ${booking.eventId} does not exist`);
                 error.name = 'ValidationError';
-                return next(error);
+
             }
         } catch {
             const validationError = new Error('Invalid events ID format or database error');
             validationError.name = 'ValidationError';
-            return next(validationError);
+
         }
     }
-
-    next();
 });
 
 // Create an index on eventId for faster queries
