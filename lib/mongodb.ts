@@ -1,5 +1,9 @@
 import mongoose from 'mongoose';
 
+import {setServers} from "node:dns/promises";
+
+setServers(["1.1.1.1", "8.8.8.8"]);
+
 // Define the connection cache type
 type MongooseCache = {
     conn: typeof mongoose | null;
