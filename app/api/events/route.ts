@@ -17,6 +17,9 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({message: "Invalid JSON data format"}, {status: 400})
         }
 
+        let tags = JSON.parse(formData.get('tags') as string)
+        let agenda = JSON.parse(formData.get('agenda') as string)
+
         // Get image file from form data
         const file = formData.get('image') as File;
 
@@ -40,7 +43,7 @@ export async function POST(req: NextRequest) {
         event.image = (uploadResult as { secure_url: string }).secure_url
 
         // Create a new event in the database
-        const createdEvent = await Event.create(event)
+        const createdEvent = await Event.create({...event, tags: tags, agenda: agenda})
         return NextResponse.json({
             message: "Event created successfully",
             event: createdEvent
